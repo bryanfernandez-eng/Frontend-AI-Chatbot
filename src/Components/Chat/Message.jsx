@@ -1,6 +1,6 @@
 import React from 'react'
 
-function AIChatBot() {
+function Message() {
   return (
     <div>
       
@@ -8,4 +8,4 @@ function AIChatBot() {
   )
 }
 
-export default AIChatBot
+export default Message

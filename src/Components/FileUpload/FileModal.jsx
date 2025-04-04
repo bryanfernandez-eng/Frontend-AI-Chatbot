@@ -1,6 +1,6 @@
 import React from 'react'
 
-function MP4FileModal() {
+function FileModal() {
   return (
     <div>
       
@@ -8,4 +8,4 @@ function MP4FileModal() {
   )
 }
 
-export default MP4FileModal
+export default FileModal
