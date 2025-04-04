@@ -1,13 +1,14 @@
-import React from 'react'
-import ChatHeader from './Components/Chat/ChatHeader'
-import ChatBot from './Components/Chat/ChatBot'
+import React from 'react';
+import ChatBot from './Components/Chat/ChatBot';
+import MeshNetworkBackground from './Components/Background/MeshBackground';
 
 function App() {
   return (
-    <div className='bg-[#faf9f9]'>
-      <ChatBot/>
+    <div className='min-h-screen'>
+      <MeshNetworkBackground />
+      <ChatBot />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
