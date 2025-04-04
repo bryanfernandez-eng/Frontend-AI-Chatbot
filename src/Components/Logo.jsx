@@ -5,7 +5,8 @@ function Logo({
   size = 'md', 
   showTooltip = true, 
   tooltipText = 'AI Video Summarizer',
-  className = '' 
+  className = '', 
+  showText = true
 }) {
   const [isHovered, setIsHovered] = useState(false);
   
@@ -126,10 +127,11 @@ function Logo({
             </>
           )}
         </div>
+        {showText && (
         <p className={`${currentSize.text} font-bold transition-all duration-300 ${isHovered ? 'text-sky-600' : 'text-gray-800'}`}>
           <span className={`transition-all duration-300 ${isHovered ? 'text-blue-600' : ''}`}>Frame</span>
           <span className={`font-extrabold transition-all duration-300 ${isHovered ? 'text-blue-700' : ''}`}>Sage</span>
-        </p>
+        </p>)}
       </div>
       
       {isHovered && showTooltip && (
