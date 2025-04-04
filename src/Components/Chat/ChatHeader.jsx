@@ -6,7 +6,7 @@ function ChatHeader() {
       <Logo size="md"></Logo>
       <div>
         <p className="cursor-pointer bg-blue-500 hover:bg-blue-600 text-white py-1 px-4 rounded transition-colors duration-200">
-          Summarize New Video
+          AI Video Summarizer 
         </p>
       </div>
     </div>

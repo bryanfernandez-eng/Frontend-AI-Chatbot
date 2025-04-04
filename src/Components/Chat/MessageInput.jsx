@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 
-function MessageInput() {
+function MessageInput({ onSendMessage }) {
   const [message, setMessage] = useState("");
   const textareaRef = useRef(null);
   const maxCharacters = 500;
@@ -8,9 +8,8 @@ function MessageInput() {
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
-
       const scrollHeight = textareaRef.current.scrollHeight;
-      textareaRef.current.style.height = scrollHeight + "px";
+      textareaRef.current.style.height = Math.min(scrollHeight, 150) + "px";
     }
   }, [message]);
 
@@ -25,7 +24,7 @@ function MessageInput() {
 
   const handleSubmit = () => {
     if (message.trim() && message.length <= maxCharacters) {
-      console.log("Sending message:", message);
+      onSendMessage(message);
       setMessage("");
     }
   };
@@ -38,47 +37,57 @@ function MessageInput() {
   };
 
   const remainingChars = maxCharacters - message.length;
+  const isNearLimit = remainingChars <= 50 && remainingChars > 0;
   const isAtLimit = remainingChars <= 0;
 
   return (
-    <div className="flex flex-col gap-2 p-3 sm:p-5 border border-gray-950 rounded-lg bg-gradient-to-r from-blue-400 to-blue-500 w-full max-w-4xl mx-auto">
+    <div className="flex flex-col gap-2 p-3 sm:p-5 rounded-xl bg-gradient-to-r from-blue-400 to-blue-500 w-full max-w-4xl mx-auto  transition-all duration-200">
       <textarea
         ref={textareaRef}
         value={message}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
-        className={`w-full p-2 border-0 focus:outline-none appearance-none rounded resize-none overflow-y-auto no-scrollbar 
-        }`}
+        className={`w-full p-3 border-0 focus:outline-none appearance-none rounded-lg resize-none overflow-y-auto no-scrollbar 
+        text-gray-700 placeholder-transition-all duration-200
+        ${isAtLimit ? "border-2 border-red-500" : ""}`}
         placeholder="Type your message..."
         style={{
           maxHeight: "150px",
-          minHeight: "40px",
-          scrollbarWidth: "none", 
-          msOverflowStyle: "none" ,
+          minHeight: "50px",
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
         }}
       />
       <div className="flex justify-between items-center flex-wrap gap-2">
         <button
-          className="border py-1 px-2 text-sm rounded-lg cursor-pointer bg-gradient-to-r from-blue-200 to-blue-300 
-                          transition-transform duration-200 hover:translate-x-1 hover:bg-blue-100"
+          className="flex items-center gap-1 py-2 px-3 text-sm rounded-lg cursor-pointer bg-blue-50 text-blue-600 hover:bg-blue-100
+            shadow transition-all duration-200 hover:shadow-md font-medium"
         >
-          + Add Attachment
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+          Add MP4 File
         </button>
         <button
           onClick={handleSubmit}
           disabled={isAtLimit || message.trim().length === 0}
-          className={`border py-1 px-4 text-sm rounded-lg cursor-pointer
-                    transition-transform duration-200 hover:-translate-x-1  bg-gradient-to-r  from-blue-200 to-blue-300 text-black font-medium
+          className={`flex items-center gap-1 py-2 px-4 text-sm rounded-lg cursor-pointer
+                    transition-all duration-200 shadow font-medium
                     ${
                       isAtLimit || message.trim().length === 0
-                        && " cursor-not-allowed"
-                        
-        }`}
+                        ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                        : "bg-blue-50 text-blue-600 hover:bg-blue-100 hover:shadow-md"
+                    }`}
         >
           Send
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+          </svg>
         </button>
       </div>
-      <p className={`${isAtLimit ? "text-red-800 font-bold" : ""}`}>
+      <p className={`text-xs ${isNearLimit ? "text-yellow-800 font-medium" : "text-blue-50"} ${
+        isAtLimit ? "text-red-800 font-bold" : ""
+      }`}>
         {message.length}/{maxCharacters} characters
         {isAtLimit && " - Maximum limit reached"}
       </p>
