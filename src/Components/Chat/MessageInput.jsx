@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 
-function MessageInput({ onSendMessage }) {
+function MessageInput({ onSendMessage, onAttachmentClick }) {
   const [message, setMessage] = useState("");
   const textareaRef = useRef(null);
   const maxCharacters = 500;
@@ -41,14 +41,14 @@ function MessageInput({ onSendMessage }) {
   const isAtLimit = remainingChars <= 0;
 
   return (
-    <div className="flex flex-col gap-2 p-3 sm:p-5 rounded-xl bg-gradient-to-r from-blue-400 to-blue-500 w-full max-w-4xl mx-auto  transition-all duration-200">
+    <div className="flex flex-col gap-3 p-3 sm:p-5 rounded-xl bg-gradient-to-r from-blue-400 to-blue-500 w-full max-w-4xl mx-auto transition-all duration-200 backdrop-blur-sm shadow-sm">
       <textarea
         ref={textareaRef}
         value={message}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
-        className={`w-full p-3 border-0 focus:outline-none appearance-none rounded-lg resize-none overflow-y-auto no-scrollbar 
-        text-gray-700 placeholder-transition-all duration-200
+        className={`w-full p-1 border-0 focus:outline-none appearance-none rounded-lg resize-none overflow-y-auto no-scrollbar 
+        text-gray-900 placeholder-transition-all duration-200
         ${isAtLimit ? "border-2 border-red-500" : ""}`}
         placeholder="Type your message..."
         style={{
@@ -60,6 +60,7 @@ function MessageInput({ onSendMessage }) {
       />
       <div className="flex justify-between items-center flex-wrap gap-2">
         <button
+          onClick={onAttachmentClick}
           className="flex items-center gap-1 py-2 px-3 text-sm rounded-lg cursor-pointer bg-blue-50 text-blue-600 hover:bg-blue-100
             shadow transition-all duration-200 hover:shadow-md font-medium"
         >
